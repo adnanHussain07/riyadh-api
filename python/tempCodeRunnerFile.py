@@ -1,0 +1,2 @@
+
+myobj = {'somekey': 'somevalue'}
