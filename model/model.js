@@ -7,23 +7,32 @@ const StoreSchema = new mongoose.Schema({
         minlength:3,
         maxlength:20,
     },
-    storenumber:{
+    original_storenumber:{
         type:Number,
         required:[true,'Please provide store number'],
+    
+    },
+    present_storenumber:{
+        type:Number,
+        
     
     },
     itemid:{
         type:Number,
         unique:true,
-        required:[true,'Please provide store number'],
+        required:[true,'Please provide item id'],
 
     },
     status:{
         type:String,
-        enum:['rented', 'not_rented'],
+        enum:['rented', 'not_rented','maintenance'],
         default:'not_rented',
     },
     rentee:{
+        type:String,
+        default:'none',
+    },
+    rentee_id:{
         type:String,
         default:'none',
     },

@@ -2,7 +2,12 @@ const express = require('express');
 const router = express.Router();
 
 const {  rentingtheitem,
-    gettingbackrenteditem, } = require('../controllers/rfidinandout')
+    gettingbackrenteditem, maintenance} = require('../controllers/rfidinandout')
+
+const {
+        authenticateUser,
+        authorizePermissions,
+      } = require('../middleware/authentication');
 
 
 const {getallrenteditems, getallrenteditemsbyeachstore } = require('../controllers/renteditems')
@@ -13,6 +18,7 @@ const {getallrenteditems, getallrenteditemsbyeachstore } = require('../controlle
 // router.route('/:id').get(getSingleJob).patch(updateJob).delete(deleteJob)
 router.post('/renting', rentingtheitem);
 router.post('/getting', gettingbackrenteditem);
-router.route('/static').get(getallrenteditems)
+router.post('/maintenance', maintenance);
+router.route('/static').get(authenticateUser, getallrenteditems)
 
 module.exports = router;

@@ -5,7 +5,7 @@ const  BadRequestError  = require('../errors')
 
 const createitem = async(req,res,next)=>{
   
-    const {itemid} = req.body
+    const {itemid,original_storenumber} = req.body
     const itemNameAlreadyExists = await Item.findOne({ itemid });
     if (itemNameAlreadyExists) {
       //   res.send(email)
@@ -16,8 +16,12 @@ const createitem = async(req,res,next)=>{
     }  
     //const job = req.body
     // console.log(req.body)
-    
-    const item = await Item.create(req.body)
+    const updatedata = {}
+    updatedata.present_storenumber = original_storenumber 
+    present_storenumber = original_storenumber 
+    var material= Object.assign(req.body, updatedata);//merge the two object
+
+    const item = await Item.create(material)
     res.status(StatusCodes.CREATED).json({item} )
 
 }
