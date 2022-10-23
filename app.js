@@ -13,6 +13,7 @@ const  rfidinandout = require('./routes/rfidinandout')
 const  createitem = require('./routes/createitem')
 const  createuser = require('./routes/createuser')
 const authRouter = require('./routes/userForWeb');
+const logsRouter = require('./routes/logs')
 
 
 //middleware
@@ -38,13 +39,14 @@ app.use(cookieParser(process.env.JWT_SECRET));
 
 
 app.get('/', (req,res)=>{
-    res.send('hello store app is running')
+    res.send('hello')
 })
 //controllers
 app.use('/api/v1', rfidinandout)
 app.use('/api/v1/item', createitem)
 app.use('/api/v1/user', createuser)
 app.use('/api/v1/auth',authRouter)
+app.use('/api/v1',logsRouter)
 
 
 
@@ -55,7 +57,7 @@ app.use(errorMiddleware)
 //     res.status(500).send({msg:'something went wrong'})
 // })
 
-const port = 3001 || process.env.PORT
+const port = 3000 || process.env.PORT
 
 const start = async ()=>{
     try {

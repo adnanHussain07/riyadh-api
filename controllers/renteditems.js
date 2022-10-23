@@ -2,7 +2,7 @@ const { StatusCodes } = require('http-status-codes')
 const Item = require('../model/model')
 
 const getallrenteditems = async(req,res)=>{
-    const { status, storenumber, rentee, name,itemid } = req.query
+    const { status, storenumber, rentee, name,itemid, pageNo, count } = req.query
     ///console.log(req.query)
     //console.log(featured)
     const queryObject = {}
@@ -46,7 +46,7 @@ const getallrenteditems = async(req,res)=>{
     //   }
     // });
     // }
-    let result = Item.find(queryObject)
+    let result =  Item.find(queryObject)
     //yahan sorting ho ri hai sary products ascending aur descending order mein by price ya by name search krny
     //pr
     // if (sort){
@@ -62,8 +62,11 @@ const getallrenteditems = async(req,res)=>{
     //     const fieldsList = fields.split(',').join(' ')
     //     result = result.select(fieldsList)
     // }
-    const page = Number(req.query.page) || 1
-    const limit = Number(req.query.limit) || 10
+
+    const page = Number(pageNo) || 1
+    const limit = Number(count) || 10
+    // const page = Number(req.query.page) || 1
+    // const limit = Number(req.query.limit) || 10
     const skip = (page - 1)*limit
     
     result = result.skip(skip).limit(limit)
