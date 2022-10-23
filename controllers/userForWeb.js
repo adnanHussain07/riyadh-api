@@ -27,18 +27,18 @@ const login = async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return res.status(400).json('Please provide email and password')
+    return res.status(200).json({error: 'Please provide email and password'})
     throw new CustomError.BadRequestError('Please provide email and password');
   }
   const user = await User.findOne({ email });
 
   if (!user) {
-    return res.status(400).json('No user with this name')
+    return res.status(200).json({error: 'No user with this name'})
     throw new CustomError.UnauthenticatedError('Invalid Credentials');
   }
   const isPasswordCorrect = await user.comparePassword(password);
   if (!isPasswordCorrect) {
-    return res.status(400).json('Invalid Credentials')
+    return res.status(200).json({error: 'Invalid Credentials'})
     throw new CustomError.UnauthenticatedError('Invalid Credentials');
   }
   const tokenUser = createTokenUser(user);
