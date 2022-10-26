@@ -1,11 +1,11 @@
 const { StatusCodes } = require('http-status-codes')
-const Logs = require('../model/log')
+const History = require('../model/history')
 const Item = require('../model/model')
 const User = require('../model/user')
 const data = require('./id.json')
 //const { logs } = require('./logs')
-var name
-var id
+// var name
+// var id
 //yahan error dalna hai if the item is exist
 //if the item is already rented
 //if the person exist
@@ -15,9 +15,9 @@ const rentingtheitem = async (req, res) => {
     
     if (userid){
     const finduser = await User.findOne({ userid },{name:1, _id:0});
-    name = finduser.name
+    const rentee = finduser.name
     id = userid
-    console.log(name)
+    console.log(rentee)
     if (!finduser) {
         return res.status(400).json('There is no user with this userid')
     }
@@ -25,7 +25,8 @@ const rentingtheitem = async (req, res) => {
 
     }
     if(itemid){
-    const finditem = await Item.findOne({ itemid });
+    const finditem = await Item.findOne({ itemid },{name:1, _id:0});
+    const item = finditem.name;
 
     if (!finditem) {
         return res.status(400).json('There is no item with this itemid')
@@ -45,8 +46,10 @@ const rentingtheitem = async (req, res) => {
 
     }
     updatedata.status = "rented"
-    updatedata.rentee = name
+    updatedata.rentee = rentee
     updatedata.rentee_id = id
+    updatedata.name = item
+    console.log(item)
     // updatedata.present_storenumber = present_storenumber
     console.log(req.body)
     const product = await Item.findOneAndUpdate({ itemid: itemid }, updatedata, {
@@ -56,9 +59,11 @@ const rentingtheitem = async (req, res) => {
     // await Item.findOne({ itemid: itemid }).populate('logs');
 
     // await Logs.create( req.body )
-    await Logs.create(req.body)
+    const mergingobject= Object.assign(req.body, updatedata);//merge the two object
 
-    res.status(StatusCodes.OK).json({ product });
+    const history = await History.create(mergingobject )
+
+    res.status(StatusCodes.OK).json({ history });
 }
 }
 
@@ -74,13 +79,16 @@ const gettingbackrenteditem = async (req, res) => {
     }
     const updatedata = {}
     updatedata.present_storenumber = present_storenumber
-    var material= Object.assign(data, updatedata);//merge the two object
+    const material= Object.assign(data, updatedata);//merge the two object
     const product = await Item.findOneAndUpdate({ itemid: itemid }, material, {
         new: true,
         runValidators: true,
     });
+    
 
-    res.status(StatusCodes.OK).json({ product });
+    const history = await History.create(material )
+
+    res.status(StatusCodes.OK).json({ product, history });
 }
 
 const maintenance = async (req, res) => {

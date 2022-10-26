@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const LogSchema = new mongoose.Schema({
+const HistorySchema = new mongoose.Schema({
     name : {
         type:String,
         // required:[true,'Please provide name'],
@@ -17,15 +17,15 @@ const LogSchema = new mongoose.Schema({
         
     
     },
-    // item_id:{
-    //     type:Number,
-    //     // unique:false,
-    //     // required:[true,'Please provide item id'],
+    itemid:{
+        type:Number,
+        // unique:false,
+        // required:[true,'Please provide item id'],
 
-    // },
+    },
     status:{
         type:String,
-        enum:['rented', 'not_rented','maintenance'],
+        //enum:['rented', 'not_rented','maintenance'],
         
     },
     rentee_id:{
@@ -38,4 +38,4 @@ const LogSchema = new mongoose.Schema({
 
 }, {timestamps:true})
 
-module.exports = mongoose.model('Logs',LogSchema)
+module.exports = mongoose.model('History',HistorySchema)
