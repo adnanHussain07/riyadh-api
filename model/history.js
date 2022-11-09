@@ -23,13 +23,19 @@ const HistorySchema = new mongoose.Schema({
         // required:[true,'Please provide item id'],
 
     },
-    status:{
-        type:String,
+    rented_at:{
+        type:Date,
+        //enum:['rented', 'not_rented','maintenance'],
+        
+    },
+    return_at:{
+        type:Date,
+        default: '',
         //enum:['rented', 'not_rented','maintenance'],
         
     },
     rentee_id:{
-        type:String,
+        type:Number,
         
     },
     rentee:{

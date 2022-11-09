@@ -6,7 +6,7 @@ const {
     authorizePermissions,
   } = require('../middleware/authentication');
 
-const  { createuser, deleteuser } = require('../controllers/createuser')
+const  { createuser, deleteuser, showUser, changeuser } = require('../controllers/createuser')
 
 
 // const use = fn => (req,res,next)=>
@@ -21,5 +21,11 @@ router
 router
   .route('/create')
   .delete(authenticateUser, deleteuser)
+  router
+  .route('/create')
+  .patch(authenticateUser, changeuser)  
+router
+  .route('/create')
+  .get(authenticateUser, showUser)  
 
 module.exports = router;

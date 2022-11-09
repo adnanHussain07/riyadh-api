@@ -8,7 +8,7 @@ const {
 
 const {logs}  = require('../controllers/logs');
 
-router.route('/logs').post(logs)
+router.route('/logs').get(authenticateUser, logs)
 
 
 module.exports = router;

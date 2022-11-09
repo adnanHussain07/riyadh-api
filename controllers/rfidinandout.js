@@ -15,7 +15,7 @@ const rentingtheitem = async (req, res) => {
     
     if (userid){
     const finduser = await User.findOne({ userid },{name:1, _id:0});
-    const rentee = finduser.name
+     rentee = finduser.name
     id = userid
     console.log(rentee)
     if (!finduser) {
@@ -45,12 +45,14 @@ const rentingtheitem = async (req, res) => {
         return res.status(400).json('Item is alreday rented')
 
     }
-    updatedata.status = "rented"
+    // updatedata.rented_at = Date.now()
+    updatedata.rented_at = new Date()
     updatedata.rentee = rentee
     updatedata.rentee_id = id
     updatedata.name = item
+    // updatedata.status = "rented"
     console.log(item)
-    // updatedata.present_storenumber = present_storenumber
+    updatedata.present_storenumber = present_storenumber
     console.log(req.body)
     const product = await Item.findOneAndUpdate({ itemid: itemid }, updatedata, {
         new: true,
@@ -61,7 +63,7 @@ const rentingtheitem = async (req, res) => {
     // await Logs.create( req.body )
     const mergingobject= Object.assign(req.body, updatedata);//merge the two object
 
-    const history = await History.create(mergingobject )
+    const history = await History.create( mergingobject )
 
     res.status(StatusCodes.OK).json({ history });
 }
@@ -72,21 +74,51 @@ const gettingbackrenteditem = async (req, res) => {
     // res.send('get back')
     // const status = not_rented
     const { itemid,present_storenumber } = req.body
+   
+
     const result = await Item.findOne({ itemid: itemid });
 
     if (!result) {
         return res.status(400).json('There is no item with this itemid')
     }
+
+    const query =  itemid 
+    const queryObject = {}
+    if(itemid){
+        queryObject.itemid = itemid
+        queryObject.return_at = null
+       
+    }
+    console.log(queryObject)
+    const result2 = await History.findOne(queryObject);
+    // const result2 = await History.find({ queryObject},{itemid:1});
+    if (!result2) {
+        return res.status(400).json('The item is already return')
+    }
+    // console.log(result2.id)
+    if (result){
+    const id = result2.id
+    }
+   
+    // const historyCheck = await History.findOne({ queryObject },{ _id:1})
+    // var dat = historyCheck._idss
+    // console.log(historyCheck._id)
     const updatedata = {}
     updatedata.present_storenumber = present_storenumber
+    
+
     const material= Object.assign(data, updatedata);//merge the two object
     const product = await Item.findOneAndUpdate({ itemid: itemid }, material, {
         new: true,
         runValidators: true,
     });
+    const newdata = {}
+    newdata.return_at = Date.now()
+    const history = await History.findOneAndUpdate({_id:id }, newdata, {
+        new: true,
+        runValidators: true,
+    });
     
-
-    const history = await History.create(material )
 
     res.status(StatusCodes.OK).json({ product, history });
 }

@@ -16,6 +16,10 @@ const UserSchema = new mongoose.Schema({
     department:{
         type:String,
         required:[true, 'Please provide department']
+    },
+    collegeid:{
+        type:Number,
+        
     }
    
 }, {timestamps:true})
