@@ -19,7 +19,7 @@ router
   .route('/create')
   .post(authenticateUser, createuser)
 router
-  .route('/create')
+  .route('/create/:id')
   .delete(authenticateUser, deleteuser)
   router
   .route('/create')

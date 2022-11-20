@@ -15,7 +15,7 @@ router
   .route('/create')
   .post(authenticateUser, createitem)
   router
-  .route('/create')
+  .route('/create/:id')
   .delete(authenticateUser, deleteitem)
 
 module.exports = router;
