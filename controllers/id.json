@@ -1,5 +1,5 @@
 {
-    "status":"not_rented",
+    "status":"available",
     "rentee":"none",
     "rentee_id":"none"
 }

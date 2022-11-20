@@ -40,7 +40,12 @@ const HistorySchema = new mongoose.Schema({
     },
     rentee:{
         type:String,
-    }
+    },
+    comment: {
+        type: String,
+        trim: true,
+        maxlength: 100,
+      },
 
 }, {timestamps:true})
 

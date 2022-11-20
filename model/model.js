@@ -25,8 +25,8 @@ const StoreSchema = new mongoose.Schema({
     },
     status:{
         type:String,
-        enum:['rented', 'not_rented','maintenance'],
-        default:'not_rented',
+        enum:['rented', 'available','maintenance'],
+        default:'available',
     },
     rentee:{
         type:String,

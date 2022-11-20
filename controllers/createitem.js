@@ -33,7 +33,7 @@ const deleteitem = async (req, res) => {
   const result = await Item.findOne({ _id: itemId })
 
   if (!result) {
-    return res.status(400).json('There is a item with this itemid')
+    return res.status(400).json('There is no item with this itemid')
   }
 
   await result.remove();
