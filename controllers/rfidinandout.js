@@ -15,9 +15,9 @@ const rentingtheitem = async (req, res) => {
     
     if (userid){
     const finduser = await User.findOne({ userid },{name:1, _id:0});
-     rentee = finduser.name
-    //id = userid
-    console.log(rentee)
+    //  rentee = finduser.name
+    // //id = userid
+    // console.log(rentee)
     if (!finduser) {
         return res.status(400).json('There is no user with this userid')
     }
@@ -45,7 +45,7 @@ const rentingtheitem = async (req, res) => {
     
     // updatedata.rented_at = Date.now()
     updatedata.rented_at = new Date()
-    updatedata.rentee = rentee
+    // updatedata.rentee = rentee
     updatedata.rentee_id = userid
     updatedata.name = item
     updatedata.status = "rented"
@@ -134,12 +134,11 @@ const gettingbackrenteditem = async (req, res) => {
 
 const maintenance = async (req, res) => {
      // res.send('rent')
-     const { itemid, userid, original_storenumber,present_storenumber } = req.body
-    
+     const { itemid, userid,present_storenumber, comment } = req.body
+     const id = userid;
      if (userid){
      const finduser = await User.findOne({ userid },{name:1, _id:0});
       rentee = finduser.name
-     id = userid
      console.log(rentee)
      if (!finduser) {
          return res.status(400).json('There is no user with this userid')
@@ -170,7 +169,7 @@ const maintenance = async (req, res) => {
      }
      // updatedata.rented_at = Date.now()
      updatedata.rented_at = new Date()
-     updatedata.rentee = rentee
+    //  updatedata.rentee = rentee
      updatedata.rentee_id = id
      updatedata.name = item
      updatedata.status = "maintenance"
