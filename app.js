@@ -14,6 +14,7 @@ const  createitem = require('./routes/createitem')
 const  createuser = require('./routes/createuser')
 const authRouter = require('./routes/userForWeb');
 const logsRouter = require('./routes/logs')
+const dashboardRouter = require('./routes/dashboard')
 
 
 //middleware
@@ -53,6 +54,7 @@ app.use('/api/v1/item', createitem)
 app.use('/api/v1/user', createuser)
 app.use('/api/v1/auth',authRouter)
 app.use('/api/v1',logsRouter)
+app.use('/api/v1',dashboardRouter)
 
 
 
