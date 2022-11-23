@@ -170,8 +170,8 @@ const maintenance = async (req, res) => {
      }
      // updatedata.rented_at = Date.now()
      updatedata.rented_at = new Date()
-     updatedata.rentee = rentee
-     updatedata.rentee_id = id
+     //updatedata.rentee = rentee
+     //updatedata.rentee_id = id
      updatedata.name = item
      updatedata.status = "maintenance"
      console.log(item)
