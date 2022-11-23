@@ -49,7 +49,7 @@ const getallrenteditems = async (req, res) => {
         // }
 
         const length = await Item.countDocuments(queryObject);
-        let result = Item.find(queryObject)
+        let result = Item.find(queryObject).sort({ createdAt: 'desc' });
         //yahan sorting ho ri hai sary products ascending aur descending order mein by price ya by name search krny
         //pr
         // if (sort){

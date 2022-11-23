@@ -25,10 +25,11 @@ const createuser = async (req, res, next) => {
 // console.log(useras)
 //yahan b error dalna hai
 const deleteuser = async (req, res) => {
-  const { userid: id } = req.body
+  const { id: userid } = req.params
+  // const { userid: id } = req.body
   // console.log(req.query)
   //console.log(featured)
-  const result = await User.findOne({ userid: id });
+  const result = await User.findOne({ _id: userid });
 
   if (!result) {
     return res.status(400).json('There is no user with this userid')
@@ -76,7 +77,7 @@ const showUser = async (req, res) => {
 
 
     const length = await User.countDocuments(queryObject);
-    let result = User.find(queryObject)
+    let result = User.find(queryObject).sort({ createdAt: 'desc' });
 
 
 
@@ -100,14 +101,14 @@ const showUser = async (req, res) => {
 const changeuser = async (req, res) => {
   const { userid, name, department, newuserid } = req.body
 
-  const ifauserisalready = await User.findOne({ userid:newuserid })
- 
-  if (ifauserisalready){
+  const ifauserisalready = await User.findOne({ userid: newuserid })
+
+  if (ifauserisalready) {
     return res.status(400).json('There is a user with this new userid')
   }
 
   const user = await User.findOne({ userid })
- 
+
   if (!user) {
     //   res.send(email)
     // throw new BadRequestError.BadRequestError('Please provide email and password');

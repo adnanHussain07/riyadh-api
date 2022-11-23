@@ -102,7 +102,7 @@ const showRegisterUsers = async (req,res) =>{
   
 
     const length = await User.countDocuments(queryObject);
-    let result = User.find(queryObject)
+    let result = User.find(queryObject).sort({ createdAt: 'desc' });
     
    
 
