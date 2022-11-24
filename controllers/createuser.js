@@ -5,7 +5,10 @@ const BadRequestError = require('../errors')
 //var useras = []
 const createuser = async (req, res, next) => {
 
-  const { userid } = req.body
+  const { userid, name, department, collegeid } = req.body
+  if (!collegeid || !department || !name || !userid){
+    return res.status(400).json("Please enter complete information")
+ }
   // useras = req.body
   const userNameAlreadyExists = await User.findOne({ userid });
   if (userNameAlreadyExists) {

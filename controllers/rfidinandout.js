@@ -12,12 +12,14 @@ const data = require('./id.json')
 const rentingtheitem = async (req, res) => {
     // res.send('rent')
     const { itemid, userid, original_storenumber,present_storenumber } = req.body
-    
+    if (!userid || !itemid){
+        return res.status(400).json("No user id or item id")
+     }
     if (userid){
     const finduser = await User.findOne({ userid },{name:1, _id:0});
-    //  rentee = finduser.name
+    var rentee = finduser.name
     // //id = userid
-    // console.log(rentee)
+    console.log(rentee)
     if (!finduser) {
         return res.status(400).json('There is no user with this userid')
     }
@@ -26,11 +28,12 @@ const rentingtheitem = async (req, res) => {
     }
     if(itemid){
     const finditem = await Item.findOne({ itemid },{name:1, _id:0});
-    const item = finditem.name;
-
+    var item = finditem.name;
+    
     if (!finditem) {
-        return res.status(400).json('There is no item with this itemid')
+        return res.status(400).jsson('There is no item with this itemid')
     }
+}
     const status = "rented"
     const queryObject = { itemid, status }
     const updatedata = {}
@@ -45,7 +48,7 @@ const rentingtheitem = async (req, res) => {
     
     // updatedata.rented_at = Date.now()
     updatedata.rented_at = new Date()
-    // updatedata.rentee = rentee
+    updatedata.rentee = rentee
     updatedata.rentee_id = userid
     updatedata.name = item
     updatedata.status = "rented"
@@ -65,7 +68,7 @@ const rentingtheitem = async (req, res) => {
 
     res.status(StatusCodes.OK).json({product, history });
 }
-}
+
 
 
 const gettingbackrenteditem = async (req, res) => {
@@ -136,23 +139,27 @@ const maintenance = async (req, res) => {
      // res.send('rent')
      const { itemid, userid,present_storenumber, comment } = req.body
      const id = userid;
+     if (!userid || !itemid){
+        return res.status(400).json("No user id or item id")
+     }
      if (userid){
      const finduser = await User.findOne({ userid },{name:1, _id:0});
-      rentee = finduser.name
+     var rentee = finduser.name
      console.log(rentee)
      if (!finduser) {
          return res.status(400).json('There is no user with this userid')
      }
-     res.status(StatusCodes.OK).json({ finduser});
+    //  res.status(StatusCodes.OK).json({ finduser});
  
      }
      if(itemid){
      const finditem = await Item.findOne({ itemid },{name:1, _id:0});
-     const item = finditem.name;
+     var item = finditem.name;
  
      if (!finditem) {
          return res.status(400).json('There is no item with this itemid')
      }
+    }
      const status = "rented"
      const queryObject = { itemid, status }
      const updatedata = {}
@@ -169,10 +176,10 @@ const maintenance = async (req, res) => {
      }
     //  updatedata.rented_at = Date.now()
      updatedata.rented_at = new Date()
-     //updatedata.rentee = rentee
-     //updatedata.rentee_id = id
-    //  updatedata.rentee = rentee
-    //  updatedata.rentee_id = id
+     updatedata.rentee = rentee
+     updatedata.rentee_id = id
+     updatedata.rentee = rentee
+    
      updatedata.name = item
      updatedata.status = "maintenance"
     //  console.log(item)
@@ -190,7 +197,7 @@ const maintenance = async (req, res) => {
      const history = await History.create( mergingobject )
  
      res.status(StatusCodes.OK).json({product, history });
- }
+ 
     // res.send('get back')
     
 }

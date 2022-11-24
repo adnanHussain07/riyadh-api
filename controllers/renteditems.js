@@ -3,7 +3,7 @@ const Item = require('../model/model')
 
 const getallrenteditems = async (req, res) => {
     try {
-        const { status, present_storenumber, rentee, name, itemid, pageNo, count } = req.query
+        const { status, present_storenumber, rentee, name, itemid, pageNo, count,  } = req.query
         ///console.log(req.query)
         //console.log(featured)
         const queryObject = {}
