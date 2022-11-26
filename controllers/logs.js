@@ -6,12 +6,15 @@ const Item = require('../model/model')
 
 const logs = async (req, res) => {
     try {
-        const { itemid, rentee, name, rentee_id, pageNo, count } = req.query
+        const { itemid, rentee, name, rentee_id, pageNo, count, SerialNo } = req.query
         ///console.log(req.query)
         //console.log(featured)
         const queryObject = {}
         //yahan jis feature ko search krogy us feature k products show hongy mere case mein feature (true or false)
         //hain, true search krny pr sirf ture feature waly products result mein aengy
+        if (SerialNo) {
+            queryObject.SerialNo = SerialNo
+        }
         if (itemid) {
             queryObject.itemid = itemid
         }

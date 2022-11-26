@@ -4,6 +4,7 @@ const CustomError = require('../errors');
 const { attachCookiesToResponse, createTokenUser } = require('../utils');
 
 const register = async (req, res) => {
+  
   const { email, name, password,role  } = req.body;
   if (!email || !name || !password || !role){
     return res.status(400).json("Please enter complete information")

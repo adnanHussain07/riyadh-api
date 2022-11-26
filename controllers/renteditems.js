@@ -3,12 +3,15 @@ const Item = require('../model/model')
 
 const getallrenteditems = async (req, res) => {
     try {
-        const { status, present_storenumber, rentee, name, itemid, pageNo, count,  } = req.query
+        const { SerialNo, status, present_storenumber, rentee, name, itemid, pageNo, count,  } = req.query
         ///console.log(req.query)
         //console.log(featured)
         const queryObject = {}
         //yahan jis feature ko search krogy us feature k products show hongy mere case mein feature (true or false)
         //hain, true search krny pr sirf ture feature waly products result mein aengy
+        if (SerialNo){
+            queryObject.SerialNo = SerialNo
+        }
         if (present_storenumber) {
             queryObject.present_storenumber = present_storenumber
         }

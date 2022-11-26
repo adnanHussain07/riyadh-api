@@ -5,8 +5,8 @@ const BadRequestError = require('../errors')
 
 const createitem = async (req, res, next) => {
 
-  const { itemid, original_storenumber, name } = req.body
-  if (!original_storenumber || !itemid || !name){
+  const { itemid, original_storenumber, name, SerialNo } = req.body
+  if (!original_storenumber || !itemid || !name || !SerialNo){
     return res.status(400).json("Please enter complete information")
  }
   const itemNameAlreadyExists = await Item.findOne({ itemid });

@@ -23,6 +23,12 @@ const StoreSchema = new mongoose.Schema({
         required:[true,'Please provide item id'],
 
     },
+    SerialNo:{
+        type:Number,
+        unique:true,
+        required:[true,'Please provide serial no'],
+
+    },
     status:{
         type:String,
         enum:['rented', 'available','maintenance'],
