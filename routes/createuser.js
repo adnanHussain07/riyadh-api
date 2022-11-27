@@ -20,10 +20,10 @@ router
   .post(authenticateUser, createuser)
 router
   .route('/create/:id')
-  .delete(authenticateUser, deleteuser)
+  .delete(authenticateUser,authorizePermissions('admin' || 'superadmin'), deleteuser)
   router
   .route('/create')
-  .patch(authenticateUser, changeuser)  
+  .patch(authenticateUser,authorizePermissions('admin' || 'superadmin'), changeuser)  
 router
   .route('/create')
   .get(authenticateUser, showUser)  

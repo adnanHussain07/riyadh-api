@@ -18,6 +18,14 @@ const createuser = async (req, res, next) => {
     // throw new BadRequestError('Email already exists');
 
   }
+  const isCollegeidExists = await User.findOne({ collegeid });
+  if (isCollegeidExists) {
+    //   res.send(email)
+    // throw new BadRequestError.BadRequestError('Please provide email and password');
+    return res.status(400).json('There is a user with this college id')
+    // throw new BadRequestError('Email already exists');
+
+  }
   //const job = req.body
   // console.log(req.body)
 

@@ -17,6 +17,14 @@ const createitem = async (req, res, next) => {
     // throw new BadRequestError('Email already exists');
 
   }
+  const isSerialNoAlreadyExists = await Item.findOne({ SerialNo });
+  if (isSerialNoAlreadyExists) {
+    //   res.send(email)
+    // throw new BadRequestError.BadRequestError('Please provide email and password');
+    return res.status(400).json('There is a item with this Serial No')
+    // throw new BadRequestError('Email already exists');
+
+  }
   //const job = req.body
   // console.log(req.body)
   const updatedata = {}

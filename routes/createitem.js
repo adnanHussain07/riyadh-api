@@ -16,6 +16,6 @@ router
   .post(authenticateUser, createitem)
   router
   .route('/create/:id')
-  .delete(authenticateUser, deleteitem)
+  .delete(authenticateUser,authorizePermissions('admin' || 'superadmin'), deleteitem)
 
 module.exports = router;

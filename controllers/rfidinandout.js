@@ -41,10 +41,11 @@ const rentingtheitem = async (req, res) => {
     if (isitemrented) {
         return res.status(400).json('Item is alreday rented')
     }
-    // let isitemonmiantenance = await Item.findOne(queryObject)
-    // if (isitemonmiantenance) {
-    //     return res.status(400).json('Item is on Maintenance')
-    // }
+    let isitemonmiantenance = await Item.findOne(itemid && {"status":"maintenance"})
+     if (isitemonmiantenance) {
+         return res.status(400).json('Item is already')
+ 
+     }
     
     // updatedata.rented_at = Date.now()
     updatedata.rented_at = new Date()
@@ -171,7 +172,12 @@ const maintenance = async (req, res) => {
      // }
      let isitemrented = await Item.findOne(queryObject)
      if (isitemrented) {
-         return res.status(400).json('Item is alreday rented')
+         return res.status(400).json('Item is already rented')
+ 
+     }
+     let isitemonmiantenance = await Item.findOne(itemid && {"status":"maintenance"})
+     if (isitemonmiantenance) {
+         return res.status(400).json('Item is already')
  
      }
     //  updatedata.rented_at = Date.now()

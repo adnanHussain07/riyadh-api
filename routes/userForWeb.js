@@ -11,8 +11,8 @@ router.get('/logout',logout);
 router.get('/showregisterusers',authenticateUser, showRegisterUsers);
 router.get('/showMe', authenticateUser, showCurrentUser)
 router.patch('/updatepassword', authenticateUser, updatepassword)
-router.delete('/showregisterusers/:id',authenticateUser, deleteuser)
-router.patch('/showregisterusers/:id',authenticateUser, changeRegsiterUser)
+router.delete('/showregisterusers/:id',authenticateUser,authorizePermissions('admin' || 'superadmin'), deleteuser)
+router.patch('/showregisterusers/:id',authenticateUser,authorizePermissions('admin' || 'superadmin'), changeRegsiterUser)
 
 
 module.exports = router;
