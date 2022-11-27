@@ -6,9 +6,9 @@ const BadRequestError = require('../errors')
 const createuser = async (req, res, next) => {
 
   const { userid, name, department, collegeid } = req.body
-  if (!collegeid || !department || !name || !userid){
+  if (!collegeid || !department || !name || !userid) {
     return res.status(400).json("Please enter complete information")
- }
+  }
   // useras = req.body
   const userNameAlreadyExists = await User.findOne({ userid });
   if (userNameAlreadyExists) {
@@ -61,7 +61,7 @@ const deleteuser = async (req, res) => {
 const showUser = async (req, res) => {
 
   try {
-    const { department, userid, name, pageNo, count } = req.query
+    const { department, userid, name, pageNo, count, isall } = req.query
     ///console.log(req.query)
     //console.log(featured)
     const queryObject = {}
@@ -93,13 +93,15 @@ const showUser = async (req, res) => {
 
 
 
-    const page = Number(pageNo) || 1
-    const limit = Number(count) || 10
-    // const page = Number(req.query.page) || 1
-    // const limit = Number(req.query.limit) || 10
-    const skip = (page - 1) * limit
+    if (!isall) {
+      const page = Number(pageNo) || 1
+      const limit = Number(count) || 10
+      // const page = Number(req.query.page) || 1
+      // const limit = Number(req.query.limit) || 10
+      const skip = (page - 1) * limit
 
-    result = result.skip(skip).limit(limit)
+      result = result.skip(skip).limit(limit)
+    }
 
     //console.log(queryObject)
     const users = await result

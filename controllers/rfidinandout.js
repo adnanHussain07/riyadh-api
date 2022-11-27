@@ -43,7 +43,7 @@ const rentingtheitem = async (req, res) => {
     }
     let isitemonmiantenance = await Item.findOne(itemid && {"status":"maintenance"})
      if (isitemonmiantenance) {
-         return res.status(400).json('Item is already')
+         return res.status(400).json('Item is already on maintenance')
  
      }
     
@@ -140,19 +140,19 @@ const maintenance = async (req, res) => {
      // res.send('rent')
      const { itemid, userid,present_storenumber, comment } = req.body
      const id = userid;
-     if (!userid || !itemid){
-        return res.status(400).json("No user id or item id")
-     }
-     if (userid){
-     const finduser = await User.findOne({ userid },{name:1, _id:0});
-     var rentee = finduser.name
-     console.log(rentee)
-     if (!finduser) {
-         return res.status(400).json('There is no user with this userid')
-     }
-    //  res.status(StatusCodes.OK).json({ finduser});
+    //  if (!userid || !itemid){
+    //     return res.status(400).json("No user id or item id")
+    //  }
+    //  if (userid){
+    //  const finduser = await User.findOne({ userid },{name:1, _id:0});
+    //  var rentee = finduser.name
+    //  console.log(rentee)
+    //  if (!finduser) {
+    //      return res.status(400).json('There is no user with this userid')
+    //  }
+    // //  res.status(StatusCodes.OK).json({ finduser});
  
-     }
+    //  }
      if(itemid){
      const finditem = await Item.findOne({ itemid },{name:1, _id:0});
      var item = finditem.name;
@@ -182,9 +182,9 @@ const maintenance = async (req, res) => {
      }
     //  updatedata.rented_at = Date.now()
      updatedata.rented_at = new Date()
-     updatedata.rentee = rentee
-     updatedata.rentee_id = id
-     updatedata.rentee = rentee
+    //  updatedata.rentee = rentee
+    //  updatedata.rentee_id = id
+    //  updatedata.rentee = rentee
     
      updatedata.name = item
      updatedata.status = "maintenance"
