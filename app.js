@@ -9,9 +9,9 @@ const cookieParser = require('cookie-parser');
 const connectDB = require('./db/connect')
 
 //routers
-const  rfidinandout = require('./routes/rfidinandout')
-const  createitem = require('./routes/createitem')
-const  createuser = require('./routes/createuser')
+const rfidinandout = require('./routes/rfidinandout')
+const createitem = require('./routes/createitem')
+const createuser = require('./routes/createuser')
 const authRouter = require('./routes/userForWeb');
 const logsRouter = require('./routes/logs')
 const dashboardRouter = require('./routes/dashboard')
@@ -45,18 +45,22 @@ app.use(cookieParser(process.env.JWT_SECRET));
 
 ///app.use(morgan('tiny'))
 
+app.use(express.static(__dirname + '/frontend'))
 
-app.get('/', (req,res)=>{
-    res.send('hello')
+
+app.get('/*', (req, res) => {
+    res.sendFile(__dirname + `${req && req.url && req.url.includes('api') ? "" : "/frontend/index.html"}`);
 })
+
+
 //controllers
 app.use('/api/v1', rfidinandout)
 app.use('/api/v1/item', createitem)
 app.use('/api/v1/user', createuser)
-app.use('/api/v1/auth',authRouter)
-app.use('/api/v1',logsRouter)
-app.use('/api/v1',dashboardRouter)
-app.use('/api/v1',spreadsheetRouter)
+app.use('/api/v1/auth', authRouter)
+app.use('/api/v1', logsRouter)
+app.use('/api/v1', dashboardRouter)
+app.use('/api/v1', spreadsheetRouter)
 
 
 
@@ -67,18 +71,18 @@ app.use(errorMiddleware)
 //     res.status(500).send({msg:'something went wrong'})
 // })
 
-const port = 3000 || process.env.PORT
+const port = 3000 || process.env.PORT;
 
-const start = async ()=>{
+const start = async () => {
     try {
         await connectDB(process.env.MONGO_URI)
-        app.listen(port, ()=>{
+        app.listen(port, () => {
             console.log(`Server is listening to the ${port}`)
         })
-        
+
     } catch (error) {
         console.log(error)
-        
+
     }
 }
 
