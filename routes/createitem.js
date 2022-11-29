@@ -14,6 +14,7 @@ const  { createitem, deleteitem } = require('../controllers/createitem')
 router
   .route('/create')
   .post(authenticateUser, createitem)
+  
   router
   .route('/create/:id')
   .delete(authenticateUser,authorizePermissions('admin' || 'superadmin'), deleteitem)
