@@ -74,7 +74,7 @@ const showUser = async (req, res) => {
       queryObject.userid = userid
     }
     if (name) {
-      queryObject.name = name
+      queryObject.name = { $regex: name, $options: 'i' }
     }
     //yahan jis company ka search krogy us company k products show honge
     // if (status) {

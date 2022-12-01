@@ -24,7 +24,7 @@ const StoreSchema = new mongoose.Schema({
 
     },
     SerialNo:{
-        type:Number,
+        type:String,
         unique:true,
         required:[true,'Please provide serial no'],
 
