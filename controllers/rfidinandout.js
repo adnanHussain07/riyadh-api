@@ -15,7 +15,7 @@ const rentingtheitem = async (req, res) => {
     if (!userid || !itemid){
         return res.status(400).json("No user id or item id")
      }
-    if (userid){
+    //if (userid){
     const finduser = await User.findOne({ userid },{name:1, _id:0});
     //}
     // //id = userid
