@@ -17,29 +17,31 @@ const rentingtheitem = async (req, res) => {
      }
     if (userid){
     const finduser = await User.findOne({ userid },{name:1, _id:0});
-    var rentee = finduser.name
+    //}
     // //id = userid
-    console.log(rentee)
+  
     if (!finduser) {
         return res.status(400).json('There is no user with this userid')
     }
     //res.status(StatusCodes.OK).json({ finduser});
 
-    }
-    if(itemid){
+    var rentee = finduser.name
+    console.log(rentee)
+   // if(itemid){
     const finditem = await Item.findOne({ itemid },{name:1, _id:0});
-    var item = finditem.name;
+   
     
     if (!finditem) {
-        return res.status(400).jsson('There is no item with this itemid')
+        return res.status(400).json('There is no item with this itemid')
     }
-}
+//}
+var item = finditem.name;
     const status = "rented"
     const queryObject = { itemid, status }
     const updatedata = {}
     let isitemrented = await Item.findOne(queryObject)
     if (isitemrented) {
-        return res.status(400).json('Item is alreday rented')
+        return res.status(400).json('Item is already rented')
     }
     let isitemonmiantenance = await Item.findOne(itemid && {"status":"maintenance"})
      if (isitemonmiantenance) {
@@ -67,7 +69,7 @@ const rentingtheitem = async (req, res) => {
 
     const history = await History.create( mergingobject )
 
-    res.status(StatusCodes.OK).json({product, history });
+    res.status(StatusCodes.OK).json("Item Rented");
 }
 
 
@@ -133,64 +135,58 @@ const gettingbackrenteditem = async (req, res) => {
     });
     
 
-    res.status(StatusCodes.OK).json({ product, history });
+    res.status(StatusCodes.OK).json("Item Returned");
 }
 
 const maintenance = async (req, res) => {
      // res.send('rent')
-     const { itemid, userid,present_storenumber, comment } = req.body
-     const id = userid;
-    //  if (!userid || !itemid){
-    //     return res.status(400).json("No user id or item id")
-    //  }
-    //  if (userid){
-    //  const finduser = await User.findOne({ userid },{name:1, _id:0});
-    //  var rentee = finduser.name
-    //  console.log(rentee)
-    //  if (!finduser) {
-    //      return res.status(400).json('There is no user with this userid')
-    //  }
-    // //  res.status(StatusCodes.OK).json({ finduser});
- 
-    //  }
-     if(itemid){
-     const finditem = await Item.findOne({ itemid },{name:1, _id:0});
-     var item = finditem.name;
- 
-     if (!finditem) {
-         return res.status(400).json('There is no item with this itemid')
+     const { itemid, userid, original_storenumber,present_storenumber } = req.body
+     if (!userid || !itemid){
+        return res.status(400).json("No user id or item id")
      }
+    //if (userid){
+    const finduser = await User.findOne({ userid },{name:1, _id:0});
+    //}
+    // //id = userid
+  
+    if (!finduser) {
+        return res.status(400).json('There is no user with this userid')
     }
+    //res.status(StatusCodes.OK).json({ finduser});
+
+    var rentee = finduser.name
+    console.log(rentee)
+   // if(itemid){
+    const finditem = await Item.findOne({ itemid },{name:1, _id:0});
+   
+    
+    if (!finditem) {
+        return res.status(400).json('There is no item with this itemid')
+    }
+//}
+var item = finditem.name;
      const status = "rented"
      const queryObject = { itemid, status }
      const updatedata = {}
-     // queryObject.status = "rented"
-     // if (itemid){
-     //     queryObject.itemid = itemid
-     //     updatedata.itemid = itemid
-     //     //queryObject.status = "rented"
-     // }
      let isitemrented = await Item.findOne(queryObject)
      if (isitemrented) {
          return res.status(400).json('Item is already rented')
- 
      }
      let isitemonmiantenance = await Item.findOne(itemid && {"status":"maintenance"})
-     if (isitemonmiantenance) {
-         return res.status(400).json('Item is already')
- 
-     }
-    //  updatedata.rented_at = Date.now()
+      if (isitemonmiantenance) {
+          return res.status(400).json('Item is already on maintenance')
+  
+      }
+     
+     // updatedata.rented_at = Date.now()
      updatedata.rented_at = new Date()
-    //  updatedata.rentee = rentee
-    //  updatedata.rentee_id = id
-    //  updatedata.rentee = rentee
-    
+     updatedata.rentee = rentee
+     updatedata.rentee_id = userid
      updatedata.name = item
      updatedata.status = "maintenance"
-    //  console.log(item)
+     console.log(item)
      updatedata.present_storenumber = present_storenumber
-     console.log(req.body)
+    //  console.log(req.body)
      const product = await Item.findOneAndUpdate({ itemid: itemid }, updatedata, {
          new: true,
          runValidators: true,
@@ -202,9 +198,7 @@ const maintenance = async (req, res) => {
  
      const history = await History.create( mergingobject )
  
-     res.status(StatusCodes.OK).json({product, history });
- 
-    // res.send('get back')
+     res.status(StatusCodes.OK).json("Item is on maintenance");
     
 }
 
