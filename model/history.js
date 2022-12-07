@@ -4,21 +4,19 @@ const HistorySchema = new mongoose.Schema({
     name : {
         type:String,
         // required:[true,'Please provide name'],
-        minlength:3,
-        maxlength:20,
     },
     original_storenumber:{
-        type:Number,
+        type:String,
         // required:[true,'Please provide store number'],
     
     },
     present_storenumber:{
-        type:Number,
+        type:String,
         
     
     },
     itemid:{
-        type:Number,
+        type:String,
         // unique:false,
         // required:[true,'Please provide item id'],
 
@@ -35,7 +33,7 @@ const HistorySchema = new mongoose.Schema({
         
     },
     rentee_id:{
-        type:Number,
+        type:String,
         
     },
     rentee:{
@@ -44,7 +42,7 @@ const HistorySchema = new mongoose.Schema({
     comment: {
         type: String,
         trim: true,
-        maxlength: 100,
+        maxlength: 300,
       },
 
 }, {timestamps:true})
