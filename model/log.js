@@ -5,24 +5,24 @@ const LogSchema = new mongoose.Schema({
         type:String,
         // required:[true,'Please provide name'],
         minlength:3,
-        maxlength:20,
+        maxlength:300,
     },
     original_storenumber:{
-        type:Number,
+        type:String,
         // required:[true,'Please provide store number'],
     
     },
     present_storenumber:{
-        type:Number,
+        type:String,
         
     
     },
-    // item_id:{
-    //     type:Number,
+     item_id:{
+    type:Number,
     //     // unique:false,
     //     // required:[true,'Please provide item id'],
 
-    // },
+     },
     status:{
         type:String,
         enum:['rented', 'not_rented','maintenance'],

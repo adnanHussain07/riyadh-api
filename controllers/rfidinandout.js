@@ -16,6 +16,7 @@ const rentingtheitem = async (req, res) => {
         return res.status(400).json("No user id or item id")
      }
     //if (userid){
+    
     const finduser = await User.findOne({ userid },{name:1, _id:0});
     //}
     // //id = userid
@@ -26,7 +27,7 @@ const rentingtheitem = async (req, res) => {
     //res.status(StatusCodes.OK).json({ finduser});
 
     var rentee = finduser.name
-    console.log(rentee)
+    // console.log(rentee)
    // if(itemid){
     const finditem = await Item.findOne({ itemid },{name:1, _id:0});
    
@@ -35,6 +36,7 @@ const rentingtheitem = async (req, res) => {
         return res.status(400).json('There is no item with this itemid')
     }
 //}
+
 var item = finditem.name;
     const status = "rented"
     const queryObject = { itemid, status }
@@ -53,11 +55,11 @@ var item = finditem.name;
     updatedata.rented_at = new Date()
     updatedata.rentee = rentee
     updatedata.rentee_id = userid
-    updatedata.name = item
+    //updatedata.name = item
     updatedata.status = "rented"
     console.log(item)
     updatedata.present_storenumber = present_storenumber
-    console.log(req.body)
+    // console.log(req.body)
     const product = await Item.findOneAndUpdate({ itemid: itemid }, updatedata, {
         new: true,
         runValidators: true,
@@ -182,9 +184,9 @@ var item = finditem.name;
      updatedata.rented_at = new Date()
      updatedata.rentee = rentee
      updatedata.rentee_id = userid
-     updatedata.name = item
+     //updatedata.name = item
      updatedata.status = "maintenance"
-     console.log(item)
+    //  console.log(item)
      updatedata.present_storenumber = present_storenumber
     //  console.log(req.body)
      const product = await Item.findOneAndUpdate({ itemid: itemid }, updatedata, {

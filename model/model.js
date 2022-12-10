@@ -4,21 +4,19 @@ const StoreSchema = new mongoose.Schema({
     name : {
         type:String,
         required:[true,'Please provide name'],
-        minlength:3,
-        maxlength:20,
     },
     original_storenumber:{
-        type:Number,
+        type:String,
         required:[true,'Please provide store number'],
     
     },
     present_storenumber:{
-        type:Number,
+        type:String,
         
     
     },
     itemid:{
-        type:Number,
+        type:String,
         unique:true,
         required:[true,'Please provide item id'],
 

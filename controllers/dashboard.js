@@ -50,17 +50,23 @@ const dashboard = async (req, res) => {
     const query10 = { status: "rented", present_storenumber: "4" };
     const countRentedStoreFour = await Item.find(query10).countDocuments().exec()
 
-    res.status(StatusCodes.OK).json({
-        countTotalNotRented, countTotalRented,
-        countNotRentedStoreOne, countRentedStoreOne, countNotRentedStoreTwo,
-        countRentedStoreTwo, countNotRentedStoreThree, countRentedStoreThree,
-        countNotRentedStoreFour, countRentedStoreFour,
-        countTotalMaintained,
-        countMainStoreOne,
-        countMainStoreTwo,
-        countMainStoreThree,
-        countMainStoreFour,
-    });
+    const query11 = { status: "maintenance", present_storenumber: "1" };
+    const countMaintenanceStoreOne = await Item.find(query11).countDocuments().exec()
+
+    const query12 = { status: "maintenance", present_storenumber: "2" };
+    const countMaintenanceStoreTwo = await Item.find(query12).countDocuments().exec()
+
+    const query13 = { status: "maintenance", present_storenumber: "3" };
+    const countMaintenanceStoreThree = await Item.find(query13).countDocuments().exec()
+
+    const query14 = { status: "maintenance", present_storenumber: "4" };
+    const countMaintenanceStoreFour = await Item.find(query14).countDocuments().exec()
+
+    res.status(StatusCodes.OK).json({ countTotalNotRented, countTotalRented ,
+        countNotRentedStoreOne ,countRentedStoreOne ,countNotRentedStoreTwo, 
+        countRentedStoreTwo, countNotRentedStoreThree ,countRentedStoreThree,
+        countNotRentedStoreFour ,countRentedStoreFour,countMaintenanceStoreOne,
+        countMaintenanceStoreTwo, countMaintenanceStoreThree, countMaintenanceStoreFour });
 }
 
 module.exports = {
