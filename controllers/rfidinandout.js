@@ -140,6 +140,78 @@ const gettingbackrenteditem = async (req, res) => {
     res.status(StatusCodes.OK).json("Item Returned");
 }
 
+const gettingbackrenteditemfromarduino = async (req, res) => {
+    // res.send('get back')
+    // const status = not_rented
+    const { itemid,present_storenumber,comment } = req.body
+   
+
+    const result = await Item.findOne({ itemid: itemid });
+
+    if (!result) {
+        return res.status(400).json('There is no item with this itemid')
+    }
+
+    const status = "available"
+    const queryObject_for_rented_item = { itemid, status }
+    const updatedata_for_cheacking_rented_item = {}
+    let isitemrented = await Item.findOne(queryObject_for_rented_item)
+    if (isitemrented) {
+        return res.status(400).json('Item is not rented')
+
+    }
+
+    // const queryObject_for_maintenance_item = { itemid, status }
+    // const updatedata_for_cheacking_maintenace_item = {}
+    let isitemonmaintenance = await Item.findOne(itemid && {"status":"maintenance"})
+    if (isitemonmaintenance) {
+        return res.status(400).json('Item is on maintenance')
+
+    }
+
+    const query =  itemid 
+    const queryObject = {}
+    if(itemid){
+        queryObject.itemid = itemid
+        queryObject.return_at = null
+       
+    }
+    console.log(queryObject)
+    const result2 = await History.findOne(queryObject);
+    // const result2 = await History.find({ queryObject},{itemid:1});
+    if (!result2) {
+        return res.status(400).json('The item is already return')
+    }
+    // console.log(result2.id)
+    //if (result2){
+    const id = result2.id
+    //}
+   
+    // const historyCheck = await History.findOne({ queryObject },{ _id:1})
+    // var dat = historyCheck._idss
+    // console.log(historyCheck._id)
+    const updatedata = {}
+    updatedata.present_storenumber = present_storenumber
+    updatedata.comment = comment
+    
+
+    const material= Object.assign(data, updatedata);//merge the two object
+    const product = await Item.findOneAndUpdate({ itemid: itemid }, material, {
+        new: true,
+        runValidators: true,
+    });
+    const newdata = {}
+    newdata.return_at = Date.now()
+    newdata.comment = comment
+    const history = await History.findOneAndUpdate({_id:id }, newdata, {
+        new: true,
+        runValidators: true,
+    });
+    
+
+    res.status(StatusCodes.OK).json("Item Returned");
+}
+
 const maintenance = async (req, res) => {
      // res.send('rent')
      const { itemid, userid, original_storenumber,present_storenumber } = req.body
@@ -208,6 +280,7 @@ var item = finditem.name;
 module.exports = {
     rentingtheitem,
     gettingbackrenteditem,
-    maintenance
+    maintenance,
+    gettingbackrenteditemfromarduino
     
 }

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const {  rentingtheitem,
-    gettingbackrenteditem, maintenance} = require('../controllers/rfidinandout')
+    gettingbackrenteditem, maintenance, gettingbackrenteditemfromarduino} = require('../controllers/rfidinandout')
 
 const {
         authenticateUser,
@@ -17,6 +17,7 @@ const {getallrenteditems, getallrenteditemsbyeachstore } = require('../controlle
 
 // router.route('/:id').get(getSingleJob).patch(updateJob).delete(deleteJob)
 router.post('/renting', rentingtheitem);
+router.post('/arduinogetting', gettingbackrenteditemfromarduino);
 router.post('/getting', gettingbackrenteditem);
 router.post('/maintenance', maintenance);
 router.route('/static').get(authenticateUser, getallrenteditems)
