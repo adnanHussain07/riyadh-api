@@ -45,11 +45,15 @@ var item = finditem.name;
     if (isitemrented) {
         return res.status(400).json('Item is already rented')
     }
-    let isitemonmiantenance = await Item.findOne(itemid && {"status":"maintenance"})
+    if (itemid){
+        let status = "maintenance"
+        let query = {status, itemid}
+    const isitemonmiantenance = await Item.findOne(query)
      if (isitemonmiantenance) {
          return res.status(400).json('Item is already on maintenance')
  
      }
+    }
     
     // updatedata.rented_at = Date.now()
     updatedata.rented_at = new Date()
@@ -71,7 +75,7 @@ var item = finditem.name;
 
     const history = await History.create( mergingobject )
 
-    res.status(StatusCodes.OK).json("Item Rented");
+    res.status(StatusCodes.OK).json(" Item Rented");
 }
 
 
@@ -93,7 +97,7 @@ const gettingbackrenteditem = async (req, res) => {
     const updatedata_for_cheacking_rented_item = {}
     let isitemrented = await Item.findOne(queryObject_for_rented_item)
     if (isitemrented) {
-        return res.status(400).json('Item is not rented')
+        return res.status(400).json('Not rented')
 
     }
 
@@ -137,7 +141,7 @@ const gettingbackrenteditem = async (req, res) => {
     });
     
 
-    res.status(StatusCodes.OK).json("Item Returned");
+    res.status(StatusCodes.OK).json(" Item Returned");
 }
 
 const gettingbackrenteditemfromarduino = async (req, res) => {
@@ -163,12 +167,15 @@ const gettingbackrenteditemfromarduino = async (req, res) => {
 
     // const queryObject_for_maintenance_item = { itemid, status }
     // const updatedata_for_cheacking_maintenace_item = {}
-    let isitemonmaintenance = await Item.findOne(itemid && {"status":"maintenance"})
-    if (isitemonmaintenance) {
-        return res.status(400).json('Item is on maintenance')
-
+    if (itemid){
+        let status = "maintenance"
+        let query = {status, itemid}
+    const isitemonmiantenance = await Item.findOne(query)
+     if (isitemonmiantenance) {
+         return res.status(400).json('Item is already on maintenance')
+ 
+     }
     }
-
     const query =  itemid 
     const queryObject = {}
     if(itemid){
@@ -246,11 +253,15 @@ var item = finditem.name;
      if (isitemrented) {
          return res.status(400).json('Item is already rented')
      }
-     let isitemonmiantenance = await Item.findOne(itemid && {"status":"maintenance"})
-      if (isitemonmiantenance) {
-          return res.status(400).json('Item is already on maintenance')
-  
-      }
+     if (itemid){
+        let status = "maintenance"
+        let query = {status, itemid}
+    const isitemonmiantenance = await Item.findOne(query)
+     if (isitemonmiantenance) {
+         return res.status(400).json('Item is already on maintenance')
+ 
+     }
+    }
      
      // updatedata.rented_at = Date.now()
      updatedata.rented_at = new Date()
