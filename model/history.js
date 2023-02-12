@@ -39,6 +39,9 @@ const HistorySchema = new mongoose.Schema({
     rentee:{
         type:String,
     },
+    SerialNo:{
+        type:String,
+    },
     comment: {
         type: String,
         trim: true,

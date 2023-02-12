@@ -41,9 +41,6 @@ const logs = async (req, res) => {
         const length = await History.countDocuments(queryObject);
         let result = History.find(queryObject).sort({ createdAt: 'desc' });
 
-
-
-
         const page = Number(pageNo) || 1
         const limit = Number(count) || 10
         // const page = Number(req.query.page) || 1
@@ -53,7 +50,34 @@ const logs = async (req, res) => {
         result = result.skip(skip).limit(limit)
 
         //console.log(queryObject)
-        const history = await result
+        const historyResult = await result;
+        let history = historyResult;
+        if (history && history.length > 0) {
+            let itemIDs = [];
+            history.map(e => {
+                itemIDs.push(e.itemid);
+            });
+            if (itemIDs && itemIDs.length > 0) {
+                const itemss = Item.find({
+                    itemid: {
+                        $in: itemIDs
+                    }
+                });
+                const allItems = await itemss;
+                if (allItems && allItems.length > 0) {
+                    // allItems.map(zz=> {
+                    //     // con
+                    // })
+                    history.map(xx => {
+                        const iitem = allItems.filter(gg => gg.itemid == xx.itemid);
+                        if (iitem && iitem.length > 0) {
+                            xx.name = iitem[0].name;
+                            xx.SerialNo = iitem[0].SerialNo;
+                        }
+                    });
+                }
+            }
+        }
         res.status(200).json({ history, nbHits: history.length, total: length ? length : 0 })
     } catch (ex) {
         res.status(200).json({ error: "API_CRASHED" })

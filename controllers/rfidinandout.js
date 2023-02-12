@@ -36,7 +36,7 @@ const rentingtheitem = async (req, res) => {
         return res.status(400).json('There is no item with this itemid')
     }
 //}
-
+var serialNo = finditem.SerialNo
 var item = finditem.name;
     const status = "rented"
     const queryObject = { itemid, status }
@@ -59,7 +59,8 @@ var item = finditem.name;
     updatedata.rented_at = new Date()
     updatedata.rentee = rentee
     updatedata.rentee_id = userid
-    //updatedata.name = item
+    updatedata.name = item
+    updatedata.SerialNo = serialNo
     updatedata.status = "rented"
     console.log(item)
     updatedata.present_storenumber = present_storenumber

@@ -4,8 +4,8 @@ const LogSchema = new mongoose.Schema({
     name : {
         type:String,
         // required:[true,'Please provide name'],
-        minlength:3,
-        maxlength:300,
+        // minlength:3,
+        // maxlength:300,
     },
     original_storenumber:{
         type:String,
